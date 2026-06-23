@@ -1,22 +1,25 @@
 export default function Footer() {
   return (
     <footer
+      className="py-8 px-6 mt-4 text-center"
       style={{
-        borderTop: "1px solid var(--card-border)",
-        background: "var(--card)",
-        color: "var(--muted)",
+        borderTop: "1px solid var(--glass-border)",
+        background: "var(--navbar-bg)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
       }}
-      className="py-8 px-6 mt-8 transition-colors duration-300"
     >
-      <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-sm">
-          © {new Date().getFullYear()} Zacharie Rodde. Tous droits réservés.
+      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p className="text-sm" style={{ color: "var(--muted)" }}>
+          © {new Date().getFullYear()}{" "}
+          <span className="gradient-text font-semibold">Zacharie Rodde</span>
+          . Tous droits réservés.
         </p>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           <a
             href="mailto:zacharie.rodde@gmail.com"
+            className="text-sm transition-opacity hover:opacity-70"
             style={{ color: "var(--muted)" }}
-            className="text-sm hover:opacity-80 transition-opacity"
           >
             zacharie.rodde@gmail.com
           </a>
@@ -24,8 +27,8 @@ export default function Footer() {
             href="https://github.com/Zach0s"
             target="_blank"
             rel="noopener noreferrer"
+            className="transition-opacity hover:opacity-70"
             style={{ color: "var(--muted)" }}
-            className="hover:opacity-80 transition-opacity"
             aria-label="GitHub"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">

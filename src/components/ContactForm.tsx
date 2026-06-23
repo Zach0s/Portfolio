@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -44,67 +42,66 @@ export default function ContactForm() {
     }
   };
 
+  const inputClass =
+    "w-full px-4 py-3 rounded-xl text-sm transition-all outline-none focus:ring-2 focus:ring-[var(--accent)] placeholder:text-[var(--muted)]";
   const inputStyle = {
-    background: "var(--bg)",
-    border: "1px solid var(--card-border)",
+    background: "var(--accent-subtle)",
+    border: "1px solid var(--glass-border)",
     color: "var(--fg)",
-    outline: "none",
   } as React.CSSProperties;
 
   return (
-    <section id="contact" className="py-16 px-6 max-w-5xl mx-auto" ref={ref}>
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 style={{ color: "var(--fg)" }} className="text-3xl font-bold mb-2">
-          Contactez-moi
-        </h2>
-        <p style={{ color: "var(--muted)" }} className="text-sm mb-8">
-          Répondez-moi par email à{" "}
-          <a
-            href="mailto:zacharie.rodde@gmail.com"
-            style={{ color: "var(--accent)" }}
-            className="hover:underline"
-          >
-            zacharie.rodde@gmail.com
-          </a>
-          , ou utilisez le formulaire ci-dessous.
-        </p>
+    <section id="contact" className="py-20 px-6" ref={ref}>
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl font-bold gradient-text inline-block mb-3">Contactez-moi</h2>
+          <p className="text-base" style={{ color: "var(--muted)" }}>
+            Une question, une opportunité ?{" "}
+            <a
+              href="mailto:zacharie.rodde@gmail.com"
+              style={{ color: "var(--accent)" }}
+              className="hover:underline font-medium"
+            >
+              zacharie.rodde@gmail.com
+            </a>
+          </p>
+        </motion.div>
 
-        <div
-          style={{
-            background: "var(--card)",
-            border: "1px solid var(--card-border)",
-            boxShadow: "var(--shadow)",
-          }}
-          className="rounded-2xl p-8 max-w-xl"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          className="glass rounded-2xl p-8 max-w-lg mx-auto"
         >
           {status === "success" ? (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-8"
+              className="text-center py-6"
             >
               <div
-                style={{ color: "#16a34a", background: "#f0fdf4", border: "1px solid #bbf7d0" }}
-                className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg"
+                style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
-              <p style={{ color: "var(--fg)" }} className="font-semibold text-lg mb-1">
+              <p className="font-bold text-xl mb-1" style={{ color: "var(--fg)" }}>
                 Message envoyé !
               </p>
-              <p style={{ color: "var(--muted)" }} className="text-sm">
+              <p className="text-sm mb-5" style={{ color: "var(--muted)" }}>
                 Je vous répondrai dans les plus brefs délais.
               </p>
               <button
                 onClick={() => setStatus("idle")}
+                className="text-sm font-medium hover:underline cursor-pointer"
                 style={{ color: "var(--accent)" }}
-                className="mt-4 text-sm hover:underline cursor-pointer"
               >
                 Envoyer un autre message
               </button>
@@ -112,8 +109,8 @@ export default function ContactForm() {
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label style={{ color: "var(--fg)" }} className="text-sm font-medium">
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-semibold" style={{ color: "var(--fg)" }}>
                     Nom
                   </label>
                   <input
@@ -122,12 +119,12 @@ export default function ContactForm() {
                     onChange={handleChange}
                     placeholder="Votre nom"
                     required
+                    className={inputClass}
                     style={inputStyle}
-                    className="px-3 py-2.5 rounded-lg text-sm transition-all focus:ring-2 focus:ring-[var(--accent)] placeholder:text-[var(--muted)]"
                   />
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <label style={{ color: "var(--fg)" }} className="text-sm font-medium">
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-semibold" style={{ color: "var(--fg)" }}>
                     Email
                   </label>
                   <input
@@ -137,14 +134,14 @@ export default function ContactForm() {
                     onChange={handleChange}
                     placeholder="votre@email.com"
                     required
+                    className={inputClass}
                     style={inputStyle}
-                    className="px-3 py-2.5 rounded-lg text-sm transition-all focus:ring-2 focus:ring-[var(--accent)] placeholder:text-[var(--muted)]"
                   />
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label style={{ color: "var(--fg)" }} className="text-sm font-medium">
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-semibold" style={{ color: "var(--fg)" }}>
                   Message
                 </label>
                 <textarea
@@ -154,15 +151,15 @@ export default function ContactForm() {
                   placeholder="Votre message..."
                   required
                   rows={5}
+                  className={`${inputClass} resize-none`}
                   style={inputStyle}
-                  className="px-3 py-2.5 rounded-lg text-sm transition-all focus:ring-2 focus:ring-[var(--accent)] resize-none placeholder:text-[var(--muted)]"
                 />
               </div>
 
               {status === "error" && (
                 <p
-                  style={{ color: "#dc2626", background: "#fef2f2", border: "1px solid #fecaca" }}
-                  className="text-sm px-3 py-2 rounded-lg"
+                  className="text-sm px-4 py-2.5 rounded-xl"
+                  style={{ color: "#dc2626", background: "rgba(220,38,38,0.08)", border: "1px solid rgba(220,38,38,0.2)" }}
                 >
                   {errorMsg}
                 </p>
@@ -171,15 +168,15 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                style={{ background: "var(--accent)", color: "#fff" }}
-                className="px-5 py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-90 hover:scale-[1.02] disabled:opacity-60 disabled:scale-100 cursor-pointer"
+                className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-[1.02] disabled:opacity-60 disabled:scale-100 cursor-pointer shadow-lg mt-1"
+                style={{ background: "linear-gradient(135deg, var(--accent), var(--accent2))" }}
               >
-                {status === "loading" ? "Envoi en cours..." : "Envoyer le message"}
+                {status === "loading" ? "Envoi en cours…" : "Envoyer le message"}
               </button>
             </form>
           )}
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }

@@ -16,19 +16,16 @@ export default function Navbar() {
   return (
     <header
       style={{
-        background: "var(--card)",
-        borderBottom: "1px solid var(--card-border)",
-        boxShadow: "var(--shadow)",
+        background: "var(--navbar-bg)",
+        borderBottom: "1px solid var(--navbar-border)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
       }}
-      className="sticky top-0 z-50 transition-colors duration-300"
+      className="sticky top-0 z-50"
     >
-      <nav className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link
-          href="/"
-          style={{ color: "var(--accent)" }}
-          className="font-semibold text-lg tracking-tight hover:opacity-80 transition-opacity"
-        >
-          ZR<span style={{ color: "var(--fg)" }}>.</span>
+      <nav className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link href="/" className="font-bold text-xl gradient-text tracking-tight select-none">
+          ZR.
         </Link>
 
         <div className="flex items-center gap-1">
@@ -42,13 +39,13 @@ export default function Navbar() {
                   color: isActive ? "var(--accent)" : "var(--muted)",
                   background: isActive ? "var(--accent-subtle)" : "transparent",
                 }}
-                className="px-3 py-1.5 rounded-md text-sm font-medium transition-all hover:opacity-80"
+                className="px-3 py-1.5 rounded-lg text-sm font-medium transition-all hover:text-[var(--accent)] hover:bg-[var(--accent-subtle)]"
               >
                 {label}
               </Link>
             );
           })}
-          <div className="ml-2">
+          <div className="ml-3">
             <ThemeToggle />
           </div>
         </div>

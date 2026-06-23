@@ -7,17 +7,12 @@ import ContactForm from "@/components/ContactForm";
 
 export default function Home() {
   return (
-    <div style={{ background: "var(--bg)" }} className="transition-colors duration-300">
+    <div>
       <Hero />
-      <div style={{ borderTop: "1px solid var(--card-border)" }} />
       <Bio />
-      <div style={{ borderTop: "1px solid var(--card-border)" }} />
       <Experience />
-      <div style={{ borderTop: "1px solid var(--card-border)" }} />
       <Education />
-      <div style={{ borderTop: "1px solid var(--card-border)" }} />
       <Skills />
-      <div style={{ borderTop: "1px solid var(--card-border)" }} />
       <ContactForm />
     </div>
   );

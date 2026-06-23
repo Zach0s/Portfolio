@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const experiences = [
@@ -9,16 +8,14 @@ const experiences = [
     title: "Développeur Full Stack",
     company: "Université Paris Dauphine-PSL",
     period: "Avr 2025 – Juil 2025",
-    description:
-      "Mise en place d'un projet d'Encyclopédie en ligne. Site web mis en production et hébergé.",
+    description: "Mise en place d'un projet d'Encyclopédie en ligne. Site web mis en production et hébergé.",
     tech: ["Svelte", "Strapi", "Shadcn-svelte", "TypeScript"],
   },
   {
     title: "Chef de projet & Intervenant",
     company: "Junior Conseil Taker",
     period: "Fév 2023 – Présent",
-    description:
-      "Gestion de projets et interventions variées.",
+    description: "Gestion de projets clients et interventions techniques variées.",
     sub: {
       title: "Intervenant Formateur & Encadrement de Formation",
       company: "ETNA",
@@ -43,76 +40,80 @@ export default function Experience() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="experience" className="py-16 px-6 max-w-5xl mx-auto" ref={ref}>
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 style={{ color: "var(--fg)" }} className="text-3xl font-bold mb-8">
-          Expérience
-        </h2>
+    <section id="experience" className="py-20 px-6" ref={ref}>
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl font-bold gradient-text inline-block mb-3">Expérience</h2>
+          <p className="text-base" style={{ color: "var(--muted)" }}>
+            Parcours professionnel
+          </p>
+        </motion.div>
 
-        <div className="relative">
+        <div className="relative max-w-2xl mx-auto">
+          {/* Timeline line */}
           <div
-            style={{ background: "var(--card-border)" }}
-            className="absolute left-4 top-0 bottom-0 w-px"
+            className="absolute left-5 top-0 bottom-0 w-px"
+            style={{ background: "var(--glass-border)" }}
           />
 
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-5">
             {experiences.map((exp, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: -16 }}
+                initial={{ opacity: 0, x: -20 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: i * 0.1, duration: 0.4 }}
-                className="pl-12 relative"
+                transition={{ delay: i * 0.12, duration: 0.45 }}
+                className="pl-14 relative"
               >
+                {/* Dot */}
                 <div
-                  style={{ background: "var(--accent)", border: "3px solid var(--bg)" }}
-                  className="absolute left-2.5 top-5 w-3 h-3 rounded-full"
-                />
-                <div
+                  className="absolute left-3.5 top-5 w-3 h-3 rounded-full"
                   style={{
-                    background: "var(--card)",
-                    border: "1px solid var(--card-border)",
-                    boxShadow: "var(--shadow)",
+                    background: "linear-gradient(135deg, var(--accent), var(--accent2))",
+                    boxShadow: "0 0 0 3px var(--glass-bg)",
                   }}
-                  className="rounded-2xl p-5"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
+                />
+
+                <div className="glass rounded-2xl p-5">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                     <div>
-                      <h3 style={{ color: "var(--fg)" }} className="font-semibold text-base">
+                      <h3 className="font-semibold text-base" style={{ color: "var(--fg)" }}>
                         {exp.title}
                       </h3>
-                      <p style={{ color: "var(--accent)" }} className="text-sm font-medium">
-                        {exp.company}
-                      </p>
+                      <p className="text-sm font-medium gradient-text">{exp.company}</p>
                     </div>
                     <span
-                      style={{ color: "var(--muted)", background: "var(--bg)", border: "1px solid var(--card-border)" }}
-                      className="text-xs px-2.5 py-1 rounded-full whitespace-nowrap self-start"
+                      className="text-xs px-2.5 py-1 rounded-full whitespace-nowrap self-start font-medium"
+                      style={{ color: "var(--muted)", background: "var(--accent-subtle)" }}
                     >
                       {exp.period}
                     </span>
                   </div>
 
-                  <p style={{ color: "var(--muted)" }} className="text-sm leading-relaxed">
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
                     {exp.description}
                   </p>
 
                   {exp.sub && (
                     <div
-                      style={{ borderLeft: "2px solid var(--accent-subtle)", background: "var(--bg)" }}
-                      className="mt-3 pl-3 py-2 rounded-r-lg"
+                      className="mt-3 pl-3 py-2.5 rounded-xl"
+                      style={{
+                        borderLeft: "2px solid var(--accent)",
+                        background: "var(--accent-subtle)",
+                      }}
                     >
-                      <p style={{ color: "var(--accent)" }} className="text-xs font-semibold">
+                      <p className="text-xs font-semibold" style={{ color: "var(--accent)" }}>
                         {exp.sub.title} — {exp.sub.company}
                       </p>
-                      <p style={{ color: "var(--muted)" }} className="text-xs mt-0.5">
+                      <p className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
                         {exp.sub.period}
                       </p>
-                      <p style={{ color: "var(--muted)" }} className="text-xs mt-1 leading-relaxed">
+                      <p className="text-xs mt-1.5 leading-relaxed" style={{ color: "var(--muted)" }}>
                         {exp.sub.description}
                       </p>
                     </div>
@@ -123,8 +124,8 @@ export default function Experience() {
                       {exp.tech.map((t) => (
                         <span
                           key={t}
+                          className="text-xs px-2 py-0.5 rounded-full font-semibold"
                           style={{ color: "var(--accent)", background: "var(--accent-subtle)" }}
-                          className="text-xs px-2 py-0.5 rounded-full font-medium"
                         >
                           {t}
                         </span>
@@ -136,7 +137,7 @@ export default function Experience() {
             ))}
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

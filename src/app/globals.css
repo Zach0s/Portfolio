@@ -2,53 +2,85 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --bg: #f8f9fa;
-  --fg: #111827;
-  --card: #ffffff;
-  --card-border: #e5e7eb;
-  --muted: #6b7280;
-  --accent: #4f46e5;
-  --accent-hover: #4338ca;
-  --accent-subtle: #eef2ff;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+/* ─── Animated gradient keyframe ─── */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
+/* ─── Light mode tokens ─── */
+:root {
+  --fg: #0f172a;
+  --muted: #64748b;
+  --accent: #4f46e5;
+  --accent2: #7c3aed;
+  --accent-subtle: rgba(79,70,229,0.10);
+  --glass-bg: rgba(255,255,255,0.55);
+  --glass-border: rgba(255,255,255,0.75);
+  --glass-shadow: 0 8px 32px rgba(80,80,180,0.10);
+  --navbar-bg: rgba(255,255,255,0.60);
+  --navbar-border: rgba(255,255,255,0.70);
+  --scrollbar-thumb: rgba(100,100,200,0.25);
+}
+
+/* ─── Dark mode tokens ─── */
 .dark {
-  --bg: #0f1117;
-  --fg: #f1f5f9;
-  --card: #1a1d2e;
-  --card-border: #2d3148;
+  --fg: #e2e8f0;
   --muted: #94a3b8;
   --accent: #818cf8;
-  --accent-hover: #a5b4fc;
-  --accent-subtle: #1e1b4b;
-  --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  --accent2: #a78bfa;
+  --accent-subtle: rgba(129,140,248,0.12);
+  --glass-bg: rgba(15,18,40,0.55);
+  --glass-border: rgba(255,255,255,0.07);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.40);
+  --navbar-bg: rgba(10,12,28,0.65);
+  --navbar-border: rgba(255,255,255,0.07);
+  --scrollbar-thumb: rgba(130,140,255,0.20);
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
+* { box-sizing: border-box; padding: 0; margin: 0; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
+/* ─── Animated background on body ─── */
 body {
-  background-color: var(--bg);
-  color: var(--fg);
+  min-height: 100vh;
   font-family: var(--font-geist-sans), system-ui, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  color: var(--fg);
   -webkit-font-smoothing: antialiased;
+  background: linear-gradient(-45deg, #eef2ff, #faf5ff, #ecfeff, #eef9f0);
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+  transition: color 0.4s ease;
 }
 
-::selection {
-  background: var(--accent);
-  color: #fff;
+/* .dark is on <html>, so target html.dark > body */
+html.dark body {
+  background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0c1445, #12103a);
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
 }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+/* ─── Glassmorphism card ─── */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* ─── Gradient text utility ─── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+::selection { background: var(--accent); color: #fff; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 99px; }
