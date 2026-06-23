@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/components/Providers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import GeometricBackground from "@/components/GeometricBackground";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="fr" className={geist.variable} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col">
         <Providers>
+          <GeometricBackground />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

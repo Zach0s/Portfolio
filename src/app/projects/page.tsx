@@ -17,7 +17,7 @@ export default function ProjectsPage() {
           initial={{ scale: 0.7, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.1, duration: 0.5 }}
-          className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl glass"
+          className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl card"
         >
           <svg
             width="38"
@@ -98,7 +98,7 @@ export default function ProjectsPage() {
           </a>
           <Link
             href="/"
-            className="glass px-6 py-2.5 rounded-xl text-sm font-semibold transition-all hover:scale-[1.03] flex items-center justify-center"
+            className="card px-6 py-2.5 rounded-full text-sm font-semibold transition-all hover:scale-[1.03] flex items-center justify-center"
             style={{ color: "var(--fg)" }}
           >
             ← Retour à l'accueil

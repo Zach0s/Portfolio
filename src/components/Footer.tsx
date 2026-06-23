@@ -3,7 +3,7 @@ export default function Footer() {
     <footer
       className="py-8 px-6 mt-4 text-center"
       style={{
-        borderTop: "1px solid var(--glass-border)",
+        borderTop: "1px solid var(--navbar-border)",
         background: "var(--navbar-bg)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",

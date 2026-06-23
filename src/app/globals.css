@@ -2,76 +2,73 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ─── Animated gradient keyframe ─── */
-@keyframes gradientShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* ─── Light mode tokens ─── */
+/* ─────────────────────────────────────────────
+   Design tokens
+   ───────────────────────────────────────────── */
 :root {
-  --fg: #0f172a;
-  --muted: #64748b;
+  --bg: #f4f4f5;            /* neutral light base */
+  --fg: #18181b;
+  --muted: #6b7280;
   --accent: #4f46e5;
   --accent2: #7c3aed;
-  --accent-subtle: rgba(79,70,229,0.10);
-  --glass-bg: rgba(255,255,255,0.55);
-  --glass-border: rgba(255,255,255,0.75);
-  --glass-shadow: 0 8px 32px rgba(80,80,180,0.10);
-  --navbar-bg: rgba(255,255,255,0.60);
-  --navbar-border: rgba(255,255,255,0.70);
-  --scrollbar-thumb: rgba(100,100,200,0.25);
+  --accent-subtle: rgba(79, 70, 229, 0.08);
+
+  /* clean card surface */
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-solid: #ffffff;
+  --surface-border: rgba(24, 24, 27, 0.07);
+  --surface-shadow: 0 1px 2px rgba(24, 24, 27, 0.04),
+                    0 12px 32px -12px rgba(24, 24, 27, 0.12);
+
+  --navbar-bg: rgba(244, 244, 245, 0.72);
+  --navbar-border: rgba(24, 24, 27, 0.06);
+  --scrollbar-thumb: rgba(24, 24, 27, 0.18);
 }
 
-/* ─── Dark mode tokens ─── */
 .dark {
-  --fg: #e2e8f0;
-  --muted: #94a3b8;
+  --bg: #0a0a0b;           /* neutral dark base */
+  --fg: #ededef;
+  --muted: #9ca3af;
   --accent: #818cf8;
   --accent2: #a78bfa;
-  --accent-subtle: rgba(129,140,248,0.12);
-  --glass-bg: rgba(15,18,40,0.55);
-  --glass-border: rgba(255,255,255,0.07);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.40);
-  --navbar-bg: rgba(10,12,28,0.65);
-  --navbar-border: rgba(255,255,255,0.07);
-  --scrollbar-thumb: rgba(130,140,255,0.20);
+  --accent-subtle: rgba(129, 140, 248, 0.10);
+
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-solid: #161618;
+  --surface-border: rgba(255, 255, 255, 0.08);
+  --surface-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
+                    0 16px 40px -16px rgba(0, 0, 0, 0.6);
+
+  --navbar-bg: rgba(10, 10, 11, 0.72);
+  --navbar-border: rgba(255, 255, 255, 0.07);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.16);
 }
 
 * { box-sizing: border-box; padding: 0; margin: 0; }
 
 html { scroll-behavior: smooth; }
 
-/* ─── Animated background on body ─── */
 body {
   min-height: 100vh;
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background-color: var(--bg);
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
-  background: linear-gradient(-45deg, #eef2ff, #faf5ff, #ecfeff, #eef9f0);
-  background-size: 400% 400%;
-  animation: gradientShift 20s ease infinite;
-  transition: color 0.4s ease;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* .dark is on <html>, so target html.dark > body */
-html.dark body {
-  background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0c1445, #12103a);
-  background-size: 400% 400%;
-  animation: gradientShift 20s ease infinite;
+/* ─────────────────────────────────────────────
+   Clean card surface utility
+   ───────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--surface-shadow);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 
-/* ─── Glassmorphism card ─── */
-.glass {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-/* ─── Gradient text utility ─── */
+/* Gradient text utility */
 .gradient-text {
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   -webkit-background-clip: text;
@@ -79,8 +76,88 @@ html.dark body {
   background-clip: text;
 }
 
+/* ─────────────────────────────────────────────
+   Animated geometric background
+   ───────────────────────────────────────────── */
+.geo-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.geo-shape {
+  position: absolute;
+  opacity: 0.5;
+  filter: blur(2px);
+  will-change: transform, background-color;
+}
+.dark .geo-shape {
+  opacity: 0.38;
+  filter: blur(2px);
+}
+
+/* shape silhouettes */
+.geo-triangle { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); border-radius: 6px; }
+.geo-square   { border-radius: 22%; }
+.geo-circle   { border-radius: 50%; }
+.geo-hexagon  { clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+.geo-diamond  { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+
+/* drift motion variants */
+@keyframes driftA {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  50%  { transform: translate(60px, -50px) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+@keyframes driftB {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  50%  { transform: translate(-70px, 40px) rotate(-160deg); }
+  100% { transform: translate(0, 0) rotate(-360deg); }
+}
+@keyframes driftC {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  33%  { transform: translate(50px, 60px) rotate(120deg); }
+  66%  { transform: translate(-40px, 30px) rotate(240deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+@keyframes driftD {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  50%  { transform: translate(45px, 70px) rotate(200deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* color cycling */
+@keyframes hue1 {
+  0%   { background-color: #6366f1; }
+  25%  { background-color: #8b5cf6; }
+  50%  { background-color: #ec4899; }
+  75%  { background-color: #06b6d4; }
+  100% { background-color: #6366f1; }
+}
+@keyframes hue2 {
+  0%   { background-color: #0ea5e9; }
+  25%  { background-color: #14b8a6; }
+  50%  { background-color: #6366f1; }
+  75%  { background-color: #a855f7; }
+  100% { background-color: #0ea5e9; }
+}
+@keyframes hue3 {
+  0%   { background-color: #f59e0b; }
+  25%  { background-color: #ec4899; }
+  50%  { background-color: #8b5cf6; }
+  75%  { background-color: #22d3ee; }
+  100% { background-color: #f59e0b; }
+}
+
 ::selection { background: var(--accent); color: #fff; }
 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 99px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .geo-shape { animation: none !important; }
+  body, .dark body { animation: none !important; }
+}

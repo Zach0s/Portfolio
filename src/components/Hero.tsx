@@ -15,27 +15,28 @@ const fadeUp: Variants = {
 
 export default function Hero() {
   return (
-    <section className="flex flex-col items-center justify-center text-center px-6 pt-24 pb-20">
+    <section className="flex flex-col items-center justify-center text-center px-6 pt-28 pb-24">
       <motion.div
         initial="hidden"
         animate="visible"
-        className="flex flex-col items-center gap-5 max-w-2xl w-full"
+        className="flex flex-col items-center gap-6 max-w-2xl w-full"
       >
         {/* Profile picture */}
         <motion.div custom={0} variants={fadeUp}>
           <div
-            className="rounded-full p-[3px] shadow-2xl"
+            className="rounded-full p-[3px] shadow-xl"
             style={{ background: "linear-gradient(135deg, var(--accent), var(--accent2))" }}
           >
             <div
-              className="rounded-full overflow-hidden"
-              style={{ width: 172, height: 172, position: "relative" }}
+              className="rounded-full overflow-hidden relative"
+              style={{ width: 168, height: 168 }}
             >
               <Image
                 src="/profile.jpg"
                 alt="Zacharie Rodde"
                 fill
                 priority
+                sizes="168px"
                 style={{ objectFit: "cover", objectPosition: "center top" }}
               />
             </div>
@@ -46,7 +47,7 @@ export default function Hero() {
         <motion.span
           custom={1}
           variants={fadeUp}
-          className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full"
+          className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full"
           style={{ color: "var(--accent)", background: "var(--accent-subtle)" }}
         >
           <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
@@ -69,29 +70,29 @@ export default function Hero() {
           variants={fadeUp}
           className="text-xl sm:text-2xl font-semibold gradient-text"
         >
-          Développeur logiciel & Full Stack
+          Développeur logiciel &amp; Full Stack
         </motion.p>
 
         {/* Description */}
         <motion.p
           custom={4}
           variants={fadeUp}
-          className="text-base leading-relaxed max-w-lg"
+          className="text-base sm:text-lg leading-relaxed max-w-xl px-2"
           style={{ color: "var(--muted)" }}
         >
           Étudiant en 4ème année à Epitech Technology, Paris. Rigoureux, organisé et autonome,
-          avec un bon esprit d'équipe et une grande capacité d'adaptation.
+          avec un bon esprit d&apos;équipe et une grande capacité d&apos;adaptation.
         </motion.p>
 
         {/* CTA buttons */}
         <motion.div
           custom={5}
           variants={fadeUp}
-          className="flex flex-wrap items-center justify-center gap-3 pt-1"
+          className="flex flex-wrap items-center justify-center gap-3 pt-2"
         >
           <a
             href="#contact"
-            className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-[1.03] shadow-lg"
+            className="px-6 py-3 rounded-full text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-[1.03] shadow-lg"
             style={{ background: "linear-gradient(135deg, var(--accent), var(--accent2))" }}
           >
             Me contacter
@@ -100,7 +101,7 @@ export default function Hero() {
             href="https://github.com/Zach0s"
             target="_blank"
             rel="noopener noreferrer"
-            className="glass px-6 py-2.5 rounded-xl text-sm font-semibold transition-all hover:scale-[1.03] flex items-center gap-2"
+            className="card px-6 py-3 rounded-full text-sm font-semibold transition-all hover:scale-[1.03] flex items-center gap-2"
             style={{ color: "var(--fg)" }}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -110,7 +111,7 @@ export default function Hero() {
           </a>
           <Link
             href="/projects"
-            className="glass px-6 py-2.5 rounded-xl text-sm font-semibold transition-all hover:scale-[1.03]"
+            className="card px-6 py-3 rounded-full text-sm font-semibold transition-all hover:scale-[1.03]"
             style={{ color: "var(--fg)" }}
           >
             Projets →

@@ -43,21 +43,21 @@ export default function ContactForm() {
   };
 
   const inputClass =
-    "w-full px-4 py-3 rounded-xl text-sm transition-all outline-none focus:ring-2 focus:ring-[var(--accent)] placeholder:text-[var(--muted)]";
+    "w-full px-4 py-3 rounded-2xl text-sm transition-all outline-none focus:ring-2 focus:ring-[var(--accent)] placeholder:text-[var(--muted)]";
   const inputStyle = {
-    background: "var(--accent-subtle)",
-    border: "1px solid var(--glass-border)",
+    background: "var(--bg)",
+    border: "1px solid var(--surface-border)",
     color: "var(--fg)",
   } as React.CSSProperties;
 
   return (
     <section id="contact" className="py-20 px-6" ref={ref}>
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
           <h2 className="text-4xl font-bold gradient-text inline-block mb-3">Contactez-moi</h2>
           <p className="text-base" style={{ color: "var(--muted)" }}>
@@ -76,13 +76,13 @@ export default function ContactForm() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.15, duration: 0.5 }}
-          className="glass rounded-2xl p-8 max-w-lg mx-auto"
+          className="card rounded-3xl p-8 sm:p-10 max-w-lg mx-auto"
         >
           {status === "success" ? (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-6"
+              className="text-center py-8"
             >
               <div
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg"
@@ -95,7 +95,7 @@ export default function ContactForm() {
               <p className="font-bold text-xl mb-1" style={{ color: "var(--fg)" }}>
                 Message envoyé !
               </p>
-              <p className="text-sm mb-5" style={{ color: "var(--muted)" }}>
+              <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
                 Je vous répondrai dans les plus brefs délais.
               </p>
               <button
@@ -107,8 +107,8 @@ export default function ContactForm() {
               </button>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div className="grid sm:grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <div className="grid sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-semibold" style={{ color: "var(--fg)" }}>
                     Nom
@@ -158,7 +158,7 @@ export default function ContactForm() {
 
               {status === "error" && (
                 <p
-                  className="text-sm px-4 py-2.5 rounded-xl"
+                  className="text-sm px-4 py-2.5 rounded-2xl"
                   style={{ color: "#dc2626", background: "rgba(220,38,38,0.08)", border: "1px solid rgba(220,38,38,0.2)" }}
                 >
                   {errorMsg}
@@ -168,7 +168,7 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-[1.02] disabled:opacity-60 disabled:scale-100 cursor-pointer shadow-lg mt-1"
+                className="w-full py-3.5 rounded-2xl text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-[1.02] disabled:opacity-60 disabled:scale-100 cursor-pointer shadow-lg"
                 style={{ background: "linear-gradient(135deg, var(--accent), var(--accent2))" }}
               >
                 {status === "loading" ? "Envoi en cours…" : "Envoyer le message"}
