@@ -16,7 +16,7 @@ const geist = Geist({
 export const metadata: Metadata = {
   title: "Zacharie Rodde — Développeur Full Stack",
   description:
-    "Portfolio de Zacharie Rodde, développeur logiciel et fullstack, étudiant en 4ème année à Epitech Technology.",
+    "Portfolio de Zacharie Rodde, développeur logiciel et fullstack, étudiant en 5ème année à Epitech Technology.",
 };
 
 export default function RootLayout({

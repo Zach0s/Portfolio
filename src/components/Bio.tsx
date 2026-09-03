@@ -51,7 +51,7 @@ export default function Bio() {
           className="card rounded-3xl p-8 sm:p-12 text-center"
         >
           <p className="text-lg leading-relaxed mb-5 max-w-xl mx-auto" style={{ color: "var(--fg)" }}>
-            Développeur en quatrième année à{" "}
+            Développeur en cinquième année à{" "}
             <span className="font-semibold" style={{ color: "var(--accent)" }}>
               Epitech Technology
             </span>
