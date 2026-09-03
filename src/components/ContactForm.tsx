@@ -51,7 +51,7 @@ export default function ContactForm() {
   } as React.CSSProperties;
 
   return (
-    <section id="contact" className="py-20 px-6" ref={ref}>
+    <section id="contact" className="py-20 px-6 scroll-mt-16" ref={ref}>
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
