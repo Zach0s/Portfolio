@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import ThemeToggle from "./ThemeToggle";
 
 const CONTACT_HREF = "/#contact";
@@ -58,6 +58,35 @@ export default function Navbar() {
   // it takes over from "Accueil".
   const activeHref = isHome && contactActive ? CONTACT_HREF : pathname;
 
+  // On the home page both links point at the route we're already on, so the
+  // App Router won't move the view — a hash navigation there is deferred until
+  // the next one. Scroll ourselves, and keep the URL in step.
+  const handleContactClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    markActive();
+
+    if (!isHome) return;
+
+    const section = document.getElementById("contact");
+    if (!section) return;
+
+    event.preventDefault();
+    section.scrollIntoView({ behavior: "smooth" });
+    window.history.replaceState(null, "", CONTACT_HREF);
+  };
+
+  const handleHomeClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (!isHome) return;
+
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.history.replaceState(null, "", "/");
+  };
+
+  const clickHandlers: Record<string, (event: MouseEvent<HTMLAnchorElement>) => void> = {
+    "/": handleHomeClick,
+    [CONTACT_HREF]: handleContactClick,
+  };
+
   return (
     <header
       style={{
@@ -81,7 +110,7 @@ export default function Navbar() {
                 key={href}
                 href={href}
                 aria-current={isActive ? "page" : undefined}
-                onClick={href === CONTACT_HREF ? markActive : undefined}
+                onClick={clickHandlers[href]}
                 style={{
                   color: isActive ? "var(--accent)" : "var(--muted)",
                   background: isActive ? "var(--accent-subtle)" : "transparent",
