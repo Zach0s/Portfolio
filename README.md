@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Zacharie Rodde
 
-## Getting Started
+Portfolio personnel de Zacharie Rodde, développeur logiciel et fullstack.
+Site vitrine d'une seule page (parcours, expériences, compétences, contact),
+accompagné d'une page projets.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, Turbopack) et **React 19**
+- **TypeScript**
+- **Tailwind CSS 4** — tokens de design et animations dans `src/app/globals.css`
+- **framer-motion** — animations d'apparition des sections
+- **next-themes** — bascule clair/sombre (`attribute="class"`, sans thème système)
+- **Resend** — envoi des messages du formulaire de contact
+- **Vercel Analytics** et **Speed Insights**
+
+## Démarrage
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Le site est servi sur [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Variables d'environnement
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Le formulaire de contact a besoin d'une clé Resend. Copiez `.env.example` vers
+`.env.local` et renseignez-la :
 
-## Learn More
+```bash
+cp .env.example .env.local
+```
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Rôle |
+| --- | --- |
+| `RESEND_API_KEY` | Clé API [Resend](https://resend.com) utilisée par `POST /api/contact`. |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Sans cette clé, la route renvoie une 500 et le reste du site fonctionne
+normalement.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
+| Commande | Effet |
+| --- | --- |
+| `npm run dev` | Serveur de développement |
+| `npm run build` | Build de production |
+| `npm run start` | Sert le build de production |
+| `npm run lint` | ESLint |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+├── app/
+│   ├── api/contact/route.ts   # Envoi du formulaire via Resend
+│   ├── globals.css            # Tokens de thème, utilitaires, animations du fond
+│   ├── layout.tsx             # Navbar, Footer, fond animé, providers
+│   ├── page.tsx               # Page d'accueil (assemble les sections)
+│   └── projects/page.tsx      # Page projets
+└── components/                # Hero, Bio, Experience, Education, Skills,
+                               # ContactForm, Navbar, Footer, ThemeToggle,
+                               # GeometricBackground, Providers
+```
+
+Le thème pilote tout par des variables CSS définies sur `:root` et `.dark` :
+couleurs de surface, accents, et la palette des formes géométriques animées du
+fond, dont la version sombre reprend les complémentaires de la palette claire.
+
+## Déploiement
+
+Déployé sur Vercel. `RESEND_API_KEY` doit être déclarée dans les variables
+d'environnement du projet.
