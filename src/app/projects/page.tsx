@@ -101,7 +101,7 @@ export default function ProjectsPage() {
             className="card px-6 py-2.5 rounded-full text-sm font-semibold transition-all hover:scale-[1.03] flex items-center justify-center"
             style={{ color: "var(--fg)" }}
           >
-            ← Retour à l'accueil
+            ← Retour à l&apos;accueil
           </Link>
         </motion.div>
       </motion.div>
