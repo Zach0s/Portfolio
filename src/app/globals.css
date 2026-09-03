@@ -23,6 +23,23 @@
   --navbar-bg: rgba(244, 244, 245, 0.72);
   --navbar-border: rgba(24, 24, 27, 0.06);
   --scrollbar-thumb: rgba(24, 24, 27, 0.18);
+
+  /* Background shape palette — each geo-* keyframe track cycles its 4 stops.
+     The .dark block mirrors these with their complements (hue + 180°). */
+  --geo-a1: #6366f1;
+  --geo-a2: #8b5cf6;
+  --geo-a3: #ec4899;
+  --geo-a4: #06b6d4;
+
+  --geo-b1: #0ea5e9;
+  --geo-b2: #14b8a6;
+  --geo-b3: #6366f1;
+  --geo-b4: #a855f7;
+
+  --geo-c1: #f59e0b;
+  --geo-c2: #ec4899;
+  --geo-c3: #8b5cf6;
+  --geo-c4: #22d3ee;
 }
 
 .dark {
@@ -42,6 +59,23 @@
   --navbar-bg: rgba(10, 10, 11, 0.72);
   --navbar-border: rgba(255, 255, 255, 0.07);
   --scrollbar-thumb: rgba(255, 255, 255, 0.16);
+
+  /* Complements of the light palette — same saturation and lightness,
+     hue rotated by 180°. */
+  --geo-a1: #f1ee63;
+  --geo-a2: #c7f65c;
+  --geo-a3: #48ec9b;
+  --geo-a4: #d42406;
+
+  --geo-b1: #e9520e;
+  --geo-b2: #b81426;
+  --geo-b3: #f1ee63;
+  --geo-b4: #a4f755;
+
+  --geo-c1: #0b62f5;
+  --geo-c2: #48ec9b;
+  --geo-c3: #c7f65c;
+  --geo-c4: #ee3d22;
 }
 
 html { scroll-behavior: smooth; }
@@ -126,27 +160,28 @@ body {
   100% { transform: translate(0, 0) rotate(360deg); }
 }
 
-/* color cycling */
+/* Color cycling — stops come from the theme tokens above, so the shapes
+   pick up the complementary palette as soon as .dark is applied. */
 @keyframes hue1 {
-  0%   { background-color: #6366f1; }
-  25%  { background-color: #8b5cf6; }
-  50%  { background-color: #ec4899; }
-  75%  { background-color: #06b6d4; }
-  100% { background-color: #6366f1; }
+  0%   { background-color: var(--geo-a1); }
+  25%  { background-color: var(--geo-a2); }
+  50%  { background-color: var(--geo-a3); }
+  75%  { background-color: var(--geo-a4); }
+  100% { background-color: var(--geo-a1); }
 }
 @keyframes hue2 {
-  0%   { background-color: #0ea5e9; }
-  25%  { background-color: #14b8a6; }
-  50%  { background-color: #6366f1; }
-  75%  { background-color: #a855f7; }
-  100% { background-color: #0ea5e9; }
+  0%   { background-color: var(--geo-b1); }
+  25%  { background-color: var(--geo-b2); }
+  50%  { background-color: var(--geo-b3); }
+  75%  { background-color: var(--geo-b4); }
+  100% { background-color: var(--geo-b1); }
 }
 @keyframes hue3 {
-  0%   { background-color: #f59e0b; }
-  25%  { background-color: #ec4899; }
-  50%  { background-color: #8b5cf6; }
-  75%  { background-color: #22d3ee; }
-  100% { background-color: #f59e0b; }
+  0%   { background-color: var(--geo-c1); }
+  25%  { background-color: var(--geo-c2); }
+  50%  { background-color: var(--geo-c3); }
+  75%  { background-color: var(--geo-c4); }
+  100% { background-color: var(--geo-c1); }
 }
 
 ::selection { background: var(--accent); color: #fff; }
