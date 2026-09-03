@@ -80,8 +80,9 @@ export default function Hero() {
           className="text-base sm:text-lg leading-relaxed max-w-xl px-2"
           style={{ color: "var(--muted)" }}
         >
-          Étudiant en 4ème année à Epitech Technology, Paris. Rigoureux, organisé et autonome,
-          avec un bon esprit d&apos;équipe et une grande capacité d&apos;adaptation.
+          Étudiant en 4ème année à Epitech Technology, Paris.
+          <br />
+          Rigoureux, organisé et autonome, avec un bon esprit d&apos;équipe et une grande capacité d&apos;adaptation.
         </motion.p>
 
         {/* CTA buttons */}
