@@ -204,6 +204,33 @@ body {
   100% { background-color: var(--geo-c1); }
 }
 
+/* ─────────────────────────────────────────────
+   Haikei shapes
+   The SVGs in /public/haikei are used as alpha masks, so the fill comes
+   from the theme gradient and follows light/dark. Swap any of them for a
+   fresh export from haikei.app — keep the shapes black on transparent.
+   ───────────────────────────────────────────── */
+.haikei {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 100% 100%;
+}
+.haikei-blob   { mask-image: url(/haikei/blob.svg);   -webkit-mask-image: url(/haikei/blob.svg); }
+.haikei-blob-2 { mask-image: url(/haikei/blob-2.svg); -webkit-mask-image: url(/haikei/blob-2.svg); }
+.haikei-waves  { mask-image: url(/haikei/layered-waves.svg); -webkit-mask-image: url(/haikei/layered-waves.svg); }
+
+@keyframes blob-spin {
+  from { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.06); }
+  to   { transform: rotate(360deg) scale(1); }
+}
+.blob-spin      { animation: blob-spin 40s linear infinite; }
+.blob-spin-rev  { animation: blob-spin 55s linear infinite reverse; }
+
 ::selection { background: var(--accent); color: #fff; }
 
 ::-webkit-scrollbar { width: 5px; }
@@ -211,6 +238,6 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 99px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .geo-shape { animation: none !important; }
+  .geo-shape, .blob-spin, .blob-spin-rev { animation: none !important; }
   body, .dark body { animation: none !important; }
 }
