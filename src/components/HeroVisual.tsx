@@ -1,6 +1,8 @@
 "use client";
 
 import type { SplineEvent } from "@splinetool/react-spline";
+import type { Application } from "@splinetool/runtime";
+import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Component, useEffect, useState, type ReactNode } from "react";
@@ -65,7 +67,16 @@ function useCanRender3D() {
 
 export default function HeroVisual() {
   const can3D = useCanRender3D();
-  const [loaded, setLoaded] = useState(false);
+  const [app, setApp] = useState<Application | null>(null);
+  const loaded = app !== null;
+  const { resolvedTheme } = useTheme();
+
+  // The scene has two hidden trigger objects that fade its lights to a night
+  // or day look; fire the one matching the site theme on load and on toggle.
+  useEffect(() => {
+    if (!app || !resolvedTheme) return;
+    app.emitEvent("mouseDown", resolvedTheme === "dark" ? "theme:night" : "theme:day");
+  }, [app, resolvedTheme]);
 
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[320px] md:max-w-[480px]">
@@ -99,7 +110,7 @@ export default function HeroVisual() {
           <SceneBoundary>
             <Spline
               scene={SCENE_URL}
-              onLoad={() => setLoaded(true)}
+              onLoad={setApp}
               onSplineMouseDown={scrollToClickedSection}
             />
           </SceneBoundary>
