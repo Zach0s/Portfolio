@@ -76,7 +76,7 @@ d'environnement du projet.
 
 - **Spline** — the 3D scene in the hero (`src/components/HeroVisual.tsx`) only loads on screens ≥ 768px, without reduced motion or data-saver, once the browser is idle. Point it at your own scene with `NEXT_PUBLIC_SPLINE_SCENE` (Spline → Export → Code → React → copy the `.splinecode` URL). The site relies on two naming conventions in the scene:
   - `section:<id>` — a group with a Mouse Down event; clicking it scrolls to the element with that `id` (`bio`, `projets`, `experience`, `education`, `skills`, `contact`).
-  - `theme:night` / `theme:day` — hidden objects whose Mouse Down event fades the lights; the site fires the one matching the theme on load and on toggle.
+  - `Directional Light`, `Fill Light`, `Lamp Light`, `Monitor Glow` — the site fades these to the night intensities in `NIGHT_INTENSITY` in dark mode (exported light states don't keep their intensity, so the scene can't do it alone). Rename a light in Spline and you need to rename it there too.
 - **Haikei** — `public/haikei/*.svg` are used as CSS masks and tinted with the theme gradient. Replace any of them with a Haikei export (shapes in black on a transparent background).
 - **shadcn/ui** — `components.json` is set up; components live in `src/components/ui` and use the portfolio's own color tokens (see `@theme inline` in `globals.css`). Add more with `npx shadcn@latest add <component>`.
 - **Projects** — edit `src/data/projects.ts`; the home section and `/projects` both read from it.
