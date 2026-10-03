@@ -16,7 +16,7 @@ const Spline = dynamic(() => import("@splinetool/react-spline"), { ssr: false })
  */
 const SCENE_URL =
   process.env.NEXT_PUBLIC_SPLINE_SCENE ??
-  "https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode";
+  "https://prod.spline.design/FE7ZQfWKhOQm3HL5/scene.splinecode";
 
 /** If the scene can't be fetched or parsed, drop it and keep the static blobs. */
 class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
