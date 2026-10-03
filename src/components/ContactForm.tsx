@@ -8,7 +8,7 @@ type Status = "idle" | "loading" | "success" | "error";
 export default function ContactForm() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", message: "", website: "" });
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -34,7 +34,7 @@ export default function ContactForm() {
         setStatus("error");
       } else {
         setStatus("success");
-        setForm({ name: "", email: "", message: "" });
+        setForm({ name: "", email: "", message: "", website: "" });
       }
     } catch {
       setErrorMsg("Impossible de contacter le serveur. Réessayez plus tard.");
@@ -119,6 +119,7 @@ export default function ContactForm() {
                     onChange={handleChange}
                     placeholder="Votre nom"
                     required
+                    maxLength={100}
                     className={inputClass}
                     style={inputStyle}
                   />
@@ -134,6 +135,7 @@ export default function ContactForm() {
                     onChange={handleChange}
                     placeholder="votre@email.com"
                     required
+                    maxLength={254}
                     className={inputClass}
                     style={inputStyle}
                   />
@@ -150,11 +152,23 @@ export default function ContactForm() {
                   onChange={handleChange}
                   placeholder="Votre message..."
                   required
+                  maxLength={5000}
                   rows={5}
                   className={`${inputClass} resize-none`}
                   style={inputStyle}
                 />
               </div>
+
+              {/* Champ piège anti-spam, masqué aux visiteurs et aux lecteurs d'écran */}
+              <input
+                name="website"
+                value={form.website}
+                onChange={handleChange}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
 
               {status === "error" && (
                 <p
