@@ -78,6 +78,26 @@
   --geo-c4: #ee3d22;
 }
 
+/* shadcn/ui tokens, mapped onto the portfolio's own palette so the
+   generated components pick up both themes without a second set of colors. */
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--fg);
+  --color-primary: var(--accent);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--accent-subtle);
+  --color-secondary-foreground: var(--fg);
+  --color-muted: var(--accent-subtle);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--accent-subtle);
+  --color-accent-foreground: var(--accent);
+  --color-border: var(--surface-border);
+  --color-input: var(--surface-border);
+  --color-ring: var(--accent);
+}
+
 html { scroll-behavior: smooth; }
 
 body {
