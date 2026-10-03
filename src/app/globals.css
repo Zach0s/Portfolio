@@ -231,6 +231,27 @@ body {
 .blob-spin      { animation: blob-spin 40s linear infinite; }
 .blob-spin-rev  { animation: blob-spin 55s linear infinite reverse; }
 
+/* Cursor-following glow on project cards (position set from JS). */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    420px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    var(--accent-subtle),
+    transparent 65%
+  );
+}
+.spotlight:hover::before { opacity: 1; }
+
 ::selection { background: var(--accent); color: #fff; }
 
 ::-webkit-scrollbar { width: 5px; }
