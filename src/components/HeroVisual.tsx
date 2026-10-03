@@ -5,7 +5,7 @@ import type { Application } from "@splinetool/runtime";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { Component, useEffect, useState, type ReactNode } from "react";
+import { Component, useEffect, useRef, useState, type ReactNode } from "react";
 
 // The Spline runtime is ~1 MB of JS + WASM, so it is never part of the first
 // load: it is fetched only on wide screens, without reduced motion or
@@ -29,6 +29,42 @@ function scrollToClickedSection(e: SplineEvent) {
   const name = e.target.name;
   if (!name.startsWith("section:")) return;
   document.getElementById(name.slice("section:".length))?.scrollIntoView({ behavior: "smooth" });
+}
+
+/**
+ * Night look, as the intensities shown in the Spline editor. Light states
+ * don't keep their intensity once exported, so the site fades the lights
+ * itself; the day look is whatever the scene loads with.
+ */
+const NIGHT_INTENSITY: Record<string, number> = {
+  "Directional Light": 0.12,
+  "Fill Light": 0.15,
+  "Lamp Light": 2.4,
+  "Monitor Glow": 1.4,
+};
+// The runtime reads and writes intensities scaled by π compared to the editor.
+const RUNTIME_INTENSITY_SCALE = Math.PI;
+const LIGHT_FADE_MS = 700;
+
+type SceneLight = { name: string; intensity: number };
+
+/** Fades the scene's lights between the day and night looks; returns a cancel function. */
+function fadeLights(lights: SceneLight[], target: (light: SceneLight) => number) {
+  const from = lights.map((light) => light.intensity);
+  const to = lights.map(target);
+  const start = performance.now();
+  let frame = 0;
+
+  const step = (now: number) => {
+    const t = Math.min((now - start) / LIGHT_FADE_MS, 1);
+    const eased = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+    lights.forEach((light, i) => {
+      light.intensity = from[i] + (to[i] - from[i]) * eased;
+    });
+    if (t < 1) frame = requestAnimationFrame(step);
+  };
+  frame = requestAnimationFrame(step);
+  return () => cancelAnimationFrame(frame);
 }
 
 /** If the scene can't be fetched or parsed, drop it and keep the static blobs. */
@@ -70,12 +106,35 @@ export default function HeroVisual() {
   const [app, setApp] = useState<Application | null>(null);
   const loaded = app !== null;
   const { resolvedTheme } = useTheme();
+  const dayIntensity = useRef(new Map<string, number>());
 
-  // The scene has two hidden trigger objects that fade its lights to a night
-  // or day look; fire the one matching the site theme on load and on toggle.
+  // Match the scene's lighting to the site theme, on load and on toggle.
   useEffect(() => {
     if (!app || !resolvedTheme) return;
-    app.emitEvent("mouseDown", resolvedTheme === "dark" ? "theme:night" : "theme:day");
+    const day = dayIntensity.current;
+    const night = resolvedTheme === "dark";
+    let frame = 0;
+    let cancelFade = () => {};
+
+    const apply = () => {
+      const lights = app.getAllObjects().filter((o) => o.name in NIGHT_INTENSITY);
+      // Right after onLoad the object list can still be empty: try next frame.
+      if (lights.length === 0) {
+        frame = requestAnimationFrame(apply);
+        return;
+      }
+      // Lights are untouched until their first fade, so this records the day look.
+      for (const light of lights) if (!day.has(light.name)) day.set(light.name, light.intensity);
+      cancelFade = fadeLights(lights, (light) =>
+        night ? NIGHT_INTENSITY[light.name] * RUNTIME_INTENSITY_SCALE : day.get(light.name)!,
+      );
+    };
+    apply();
+
+    return () => {
+      cancelAnimationFrame(frame);
+      cancelFade();
+    };
   }, [app, resolvedTheme]);
 
   return (
