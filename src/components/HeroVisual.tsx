@@ -110,7 +110,12 @@ export default function HeroVisual() {
           <SceneBoundary>
             <Spline
               scene={SCENE_URL}
-              onLoad={setApp}
+              onLoad={(splineApp) => {
+                // The export keeps the editor's flat background; let the
+                // page's own background and blobs show through instead.
+                splineApp.setBackgroundColor("transparent");
+                setApp(splineApp);
+              }}
               onSplineMouseDown={scrollToClickedSection}
             />
           </SceneBoundary>
