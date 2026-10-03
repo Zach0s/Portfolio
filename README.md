@@ -71,3 +71,10 @@ fond, dont la version sombre reprend les complémentaires de la palette claire.
 
 Déployé sur Vercel. `RESEND_API_KEY` doit être déclarée dans les variables
 d'environnement du projet.
+
+## Visual tooling
+
+- **Spline** — the 3D scene in the hero (`src/components/HeroVisual.tsx`) only loads on screens ≥ 768px, without reduced motion or data-saver, once the browser is idle. Point it at your own scene with `NEXT_PUBLIC_SPLINE_SCENE` (Spline → Export → Code → React → copy the `.splinecode` URL).
+- **Haikei** — `public/haikei/*.svg` are used as CSS masks and tinted with the theme gradient. Replace any of them with a Haikei export (shapes in black on a transparent background).
+- **shadcn/ui** — `components.json` is set up; components live in `src/components/ui` and use the portfolio's own color tokens (see `@theme inline` in `globals.css`). Add more with `npx shadcn@latest add <component>`.
+- **Projects** — edit `src/data/projects.ts`; the home section and `/projects` both read from it.
