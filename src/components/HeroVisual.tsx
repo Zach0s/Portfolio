@@ -1,5 +1,6 @@
 "use client";
 
+import type { SplineEvent } from "@splinetool/react-spline";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Component, useEffect, useState, type ReactNode } from "react";
@@ -17,6 +18,16 @@ const Spline = dynamic(() => import("@splinetool/react-spline"), { ssr: false })
 const SCENE_URL =
   process.env.NEXT_PUBLIC_SPLINE_SCENE ??
   "https://prod.spline.design/FE7ZQfWKhOQm3HL5/scene.splinecode";
+
+/**
+ * Each object in the scene that stands for a section lives in a group named
+ * `section:<id>`, where <id> is the section's anchor on the page.
+ */
+function scrollToClickedSection(e: SplineEvent) {
+  const name = e.target.name;
+  if (!name.startsWith("section:")) return;
+  document.getElementById(name.slice("section:".length))?.scrollIntoView({ behavior: "smooth" });
+}
 
 /** If the scene can't be fetched or parsed, drop it and keep the static blobs. */
 class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
@@ -86,7 +97,11 @@ export default function HeroVisual() {
           onWheelCapture={(e) => e.stopPropagation()}
         >
           <SceneBoundary>
-            <Spline scene={SCENE_URL} onLoad={() => setLoaded(true)} />
+            <Spline
+              scene={SCENE_URL}
+              onLoad={() => setLoaded(true)}
+              onSplineMouseDown={scrollToClickedSection}
+            />
           </SceneBoundary>
         </div>
       )}
@@ -96,7 +111,7 @@ export default function HeroVisual() {
           className="pointer-events-none absolute -bottom-2 left-1/2 -translate-x-1/2 text-xs text-muted-foreground transition-opacity duration-700"
           style={{ opacity: loaded ? 1 : 0 }}
         >
-          Survolez la scène ✦
+          Cliquez sur un objet ✦
         </p>
       )}
     </div>
