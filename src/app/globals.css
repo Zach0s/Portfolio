@@ -78,6 +78,26 @@
   --geo-c4: #ee3d22;
 }
 
+/* shadcn/ui tokens, mapped onto the portfolio's own palette so the
+   generated components pick up both themes without a second set of colors. */
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--fg);
+  --color-primary: var(--accent);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--accent-subtle);
+  --color-secondary-foreground: var(--fg);
+  --color-muted: var(--accent-subtle);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--accent-subtle);
+  --color-accent-foreground: var(--accent);
+  --color-border: var(--surface-border);
+  --color-input: var(--surface-border);
+  --color-ring: var(--accent);
+}
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -184,6 +204,54 @@ body {
   100% { background-color: var(--geo-c1); }
 }
 
+/* ─────────────────────────────────────────────
+   Haikei shapes
+   The SVGs in /public/haikei are used as alpha masks, so the fill comes
+   from the theme gradient and follows light/dark. Swap any of them for a
+   fresh export from haikei.app — keep the shapes black on transparent.
+   ───────────────────────────────────────────── */
+.haikei {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 100% 100%;
+}
+.haikei-blob   { mask-image: url(/haikei/blob.svg);   -webkit-mask-image: url(/haikei/blob.svg); }
+.haikei-blob-2 { mask-image: url(/haikei/blob-2.svg); -webkit-mask-image: url(/haikei/blob-2.svg); }
+.haikei-waves  { mask-image: url(/haikei/layered-waves.svg); -webkit-mask-image: url(/haikei/layered-waves.svg); }
+
+@keyframes blob-spin {
+  from { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.06); }
+  to   { transform: rotate(360deg) scale(1); }
+}
+.blob-spin      { animation: blob-spin 40s linear infinite; }
+.blob-spin-rev  { animation: blob-spin 55s linear infinite reverse; }
+
+/* Cursor-following glow on project cards (position set from JS). */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    420px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    var(--accent-subtle),
+    transparent 65%
+  );
+}
+.spotlight:hover::before { opacity: 1; }
+
 ::selection { background: var(--accent); color: #fff; }
 
 ::-webkit-scrollbar { width: 5px; }
@@ -191,6 +259,6 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 99px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .geo-shape { animation: none !important; }
+  .geo-shape, .blob-spin, .blob-spin-rev { animation: none !important; }
   body, .dark body { animation: none !important; }
 }
