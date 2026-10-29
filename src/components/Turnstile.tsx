@@ -2,8 +2,9 @@
 
 import { useEffect, useRef } from "react";
 
-// Widget Cloudflare Turnstile, rendu seulement si NEXT_PUBLIC_TURNSTILE_SITE_KEY est définie.
-export const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+// Widget Cloudflare Turnstile. La clé de site est publique : celle du portfolio sert par défaut,
+// NEXT_PUBLIC_TURNSTILE_SITE_KEY la remplace (vide pour désactiver le widget).
+export const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "0x4AAAAAAFq7XEg4L5_2ZQgI";
 
 type TurnstileApi = {
   render: (container: HTMLElement, options: Record<string, unknown>) => string;
@@ -56,6 +57,7 @@ export default function Turnstile({ onToken }: { onToken: (token: string) => voi
           callback: (token: string) => onTokenRef.current(token),
           "expired-callback": () => onTokenRef.current(""),
           "error-callback": () => onTokenRef.current(""),
+          "timeout-callback": () => onTokenRef.current(""),
         });
       })
       .catch(() => onTokenRef.current(""));

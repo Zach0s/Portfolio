@@ -36,7 +36,8 @@ cp .env.example .env.local
 | --- | --- |
 | `RESEND_API_KEY` | Clé API [Resend](https://resend.com) utilisée par `POST /api/contact`. |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Base [Upstash Redis](https://upstash.com) des compteurs anti-spam (`KV_REST_API_URL` / `KV_REST_API_TOKEN` marchent aussi). |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | Clés [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) du captcha, facultatives. |
+| `TURNSTILE_SECRET_KEY` | Clé secrète du widget [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/). Sans elle, le serveur ne vérifie pas le captcha. |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Remplace la clé de site du portfolio (`0x4AAAAAAFq7XEg4L5_2ZQgI`), vide pour masquer le widget. |
 
 Sans `RESEND_API_KEY`, la route renvoie une 500 et le reste du site fonctionne
 normalement.
@@ -47,7 +48,9 @@ normalement.
 
 1. **Blocage temporaire** : une IP qui envoie plus de 5 requêtes en une minute,
    ou qui remplit le champ piège, est bloquée 24 h.
-2. **Captcha Turnstile**, si les deux clés sont définies.
+2. **Captcha Turnstile** : le widget s'affiche toujours, la vérification
+   serveur s'active dès que `TURNSTILE_SECRET_KEY` est définie. Un jeton ne
+   sert qu'une fois, le widget est recréé après chaque envoi.
 3. **Limites d'envoi** : 3 messages par heure par IP, 2 par heure par adresse
    email, 20 par heure au total pour protéger la boîte de réception.
 4. **Doublons** : un message identique à un autre reçu dans les 24 h obtient une
@@ -91,7 +94,7 @@ fond, dont la version sombre reprend les complémentaires de la palette claire.
 
 Déployé sur Vercel. `RESEND_API_KEY` doit être déclarée dans les variables
 d'environnement du projet, ainsi que les clés Upstash (via l'intégration
-Upstash du Marketplace Vercel) et, si besoin, celles de Turnstile.
+Upstash du Marketplace Vercel) et `TURNSTILE_SECRET_KEY`.
 
 ## Visual tooling
 
