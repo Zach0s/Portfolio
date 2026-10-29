@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import Turnstile, { TURNSTILE_SITE_KEY } from "./Turnstile";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -11,6 +12,9 @@ export default function ContactForm() {
   const [form, setForm] = useState({ name: "", email: "", message: "", website: "" });
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  // Un jeton Turnstile ne sert qu'une fois : on recrée le widget après chaque tentative ratée.
+  const [turnstileKey, setTurnstileKey] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -25,7 +29,7 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, turnstileToken }),
       });
       const data = await res.json();
 
@@ -40,6 +44,8 @@ export default function ContactForm() {
       setErrorMsg("Impossible de contacter le serveur. Réessayez plus tard.");
       setStatus("error");
     }
+    setTurnstileToken("");
+    setTurnstileKey((k) => k + 1);
   };
 
   const inputClass =
@@ -170,6 +176,8 @@ export default function ContactForm() {
                 className="hidden"
               />
 
+              <Turnstile key={turnstileKey} onToken={setTurnstileToken} />
+
               {status === "error" && (
                 <p
                   className="text-sm px-4 py-2.5 rounded-2xl"
@@ -181,7 +189,7 @@ export default function ContactForm() {
 
               <button
                 type="submit"
-                disabled={status === "loading"}
+                disabled={status === "loading" || (Boolean(TURNSTILE_SITE_KEY) && !turnstileToken)}
                 className="w-full py-3.5 rounded-2xl text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-[1.02] disabled:opacity-60 disabled:scale-100 cursor-pointer shadow-lg"
                 style={{ background: "linear-gradient(135deg, var(--accent), var(--accent2))" }}
               >
